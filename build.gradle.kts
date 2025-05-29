@@ -46,7 +46,6 @@ dependencies {
     embed("gg.essential:universalcraft-1.8.9-forge:394")
     embed("gg.essential:elementa:700")
     embed("gg.essential:vigilance:306")
-    embed("io.github.llamalad7:mixinextras-common:0.4.1")
     embed("com.github.char:Koffee:88ba1b0") {
         isTransitive = false
     }

@@ -2,8 +2,8 @@ package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.EntityRendererHook;
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.GameSettings;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,8 +27,10 @@ public class EntityRendererMixin_ViewBobbing {
         return instance.viewBobbing && !PatcherConfig.removeViewBobbing;
     }
 
-    @WrapWithCondition(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;rotate(FFFF)V", ordinal = 2))
-    public boolean patcher$verticalViewBobbing(float angle, float x, float y, float z) {
-        return !PatcherConfig.removeVerticalViewBobbing;
+    @Redirect(method = "setupViewBobbing", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;rotate(FFFF)V", ordinal = 2))
+    public void patcher$verticalViewBobbing(float angle, float x, float y, float z) {
+        if (PatcherConfig.removeVerticalViewBobbing) return;
+
+        GlStateManager.rotate(angle, 1.0F, 0.0F, 0.0F);
     }
 }
