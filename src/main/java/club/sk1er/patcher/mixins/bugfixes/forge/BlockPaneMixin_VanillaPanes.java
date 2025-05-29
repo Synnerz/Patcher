@@ -1,7 +1,7 @@
 package club.sk1er.patcher.mixins.bugfixes.forge;
 
 import club.sk1er.patcher.config.PatcherConfig;
-import gg.essential.lib.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.block.BlockPane;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

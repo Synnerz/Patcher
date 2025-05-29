@@ -2,7 +2,7 @@ package club.sk1er.patcher.mixins.features.cropheight;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.CropUtilities;
-import gg.essential.api.EssentialAPI;
+import club.sk1er.patcher.utils.Utils;
 import gg.essential.universal.UMinecraft;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.util.AxisAlignedBB;
@@ -19,14 +19,14 @@ public abstract class BlockCropsMixin_CropHeight extends BlockMixin_CropHitbox {
     //#if MC==10809
     @Override
     public void getSelectedBoundingBox(World worldIn, BlockPos pos, CallbackInfoReturnable<AxisAlignedBB> cir) {
-        if (PatcherConfig.futureHitBoxes && (EssentialAPI.getMinecraftUtil().isHypixel() || UMinecraft.getMinecraft().isIntegratedServerRunning())) {
+        if (PatcherConfig.futureHitBoxes && (Utils.INSTANCE.inHypixel() || UMinecraft.getMinecraft().isIntegratedServerRunning())) {
             CropUtilities.updateCropsMaxY(worldIn, pos, worldIn.getBlockState(pos).getBlock());
         }
     }
 
     @Override
     public void collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end, CallbackInfoReturnable<MovingObjectPosition> cir) {
-        if (PatcherConfig.futureHitBoxes && (EssentialAPI.getMinecraftUtil().isHypixel() || UMinecraft.getMinecraft().isIntegratedServerRunning())) {
+        if (PatcherConfig.futureHitBoxes && (Utils.INSTANCE.inHypixel() || UMinecraft.getMinecraft().isIntegratedServerRunning())) {
             CropUtilities.updateCropsMaxY(worldIn, pos, worldIn.getBlockState(pos).getBlock());
         }
     }

@@ -2,9 +2,7 @@ package club.sk1er.patcher.screen.render.overlay;
 
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
-import gg.essential.api.EssentialAPI;
-import gg.essential.api.utils.Multithreading;
-import gg.essential.api.utils.TrustedHostsUtil;
+import club.sk1er.patcher.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,6 +26,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +41,13 @@ public class ImagePreview {
     private int tex = -1;
     private int width = 100;
     private int height = 100;
+
+    private final ArrayList<String> localDomains = new ArrayList<>();
+
+    public ImagePreview() {
+        localDomains.add(0, "imgur.com");
+        localDomains.add(1, "i.imgur.com");
+    }
 
     @SubscribeEvent
     public void renderTickEvent(TickEvent.RenderTickEvent event) {
@@ -62,12 +68,10 @@ public class ImagePreview {
             final String host = url.getHost();
             boolean found = false;
 
-            for (TrustedHostsUtil.TrustedHost trustedHost : EssentialAPI.getTrustedHostsUtil().getTrustedHosts()) {
-                for (String domain : trustedHost.getDomains()) {
-                    if (host.equalsIgnoreCase(domain)) {
-                        found = true;
-                        break;
-                    }
+            for (String domain : localDomains) {
+                if (host.equalsIgnoreCase(domain)) {
+                    found = true;
+                    break;
                 }
             }
 
@@ -95,7 +99,7 @@ public class ImagePreview {
 
             tex = -1;
             String finalValue = value;
-            Multithreading.runAsync(() -> loadUrl(finalValue));
+            Utils.INSTANCE.runAsync(() -> loadUrl(finalValue));
         }
 
         if (this.image != null) {

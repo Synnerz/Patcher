@@ -28,7 +28,7 @@ loom {
             property("mixin.debug.verbose", "true")
             property("mixin.debug.export", "true")
             property("mixin.dumpTargetOnFailure", "true")
-            programArgs("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+            programArgs("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
             programArgs("--mixin", "patcher.mixins.json")
         }
     }
@@ -43,10 +43,21 @@ val embed by configurations.creating
 configurations.implementation.get().extendsFrom(embed)
 
 dependencies {
-    compileOnly("gg.essential:essential-$platform:4246+g8be73312c")
-    embed("gg.essential:loader-launchwrapper:1.1.3")
-
-    compileOnly("org.spongepowered:mixin:0.8.5-SNAPSHOT")
+    embed("gg.essential:universalcraft-1.8.9-forge:394")
+    embed("gg.essential:elementa:700")
+    embed("gg.essential:vigilance:306")
+    embed("io.github.llamalad7:mixinextras-common:0.4.1")
+    embed("com.github.char:Koffee:88ba1b0") {
+        isTransitive = false
+    }
+    embed("com.github.ben-manes.caffeine:caffeine:2.9.1")
+    embed("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        isTransitive = false
+    }
+    embed("org.ow2.asm:asm:9.6")
+    embed("org.ow2.asm:asm-commons:9.6")
+    embed("com.google.guava:guava:33.0.0-jre")
 }
 
 tasks.compileKotlin {
@@ -61,6 +72,10 @@ tasks.processResources {
 
 tasks.jar {
     from(embed.files.map { zipTree(it) })
+    exclude("META-INF/*.SF")
+    exclude("META-INF/*.DSA")
+    exclude("META-INF/*.RSA")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest.attributes(mapOf(
         "FMLCorePlugin" to "club.sk1er.patcher.tweaker.PatcherTweaker",
@@ -68,8 +83,9 @@ tasks.jar {
         "FMLAT" to accessTransformerName,
         "FMLCorePluginContainsFMLMod" to "Yes, yes it does",
         "Main-Class" to "club.sk1er.container.ContainerMessage",
-        "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
+        "TweakClass" to "org.spongepowered.asm.launch.MixinTweaker",
         "TweakOrder" to "0",
-        "MixinConfigs" to "patcher.mixins.json"
+        "MixinConfigs" to "patcher.mixins.json",
+        "ForceLoadAsMod" to "true"
     ))
 }

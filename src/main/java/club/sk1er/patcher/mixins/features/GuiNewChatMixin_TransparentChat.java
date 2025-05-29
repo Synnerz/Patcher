@@ -1,7 +1,7 @@
 package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
-import gg.essential.lib.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiNewChat;
 import org.spongepowered.asm.mixin.Mixin;

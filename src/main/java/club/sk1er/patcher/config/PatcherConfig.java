@@ -2,7 +2,7 @@ package club.sk1er.patcher.config;
 
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.tweaker.ClassTransformer;
-import gg.essential.api.utils.GuiUtil;
+import club.sk1er.patcher.utils.GuiHandler;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
@@ -575,7 +575,7 @@ public class PatcherConfig extends Vigilant {
         category = "Miscellaneous", subcategory = "General"
     )
     public static void modifyEverySound() {
-        GuiUtil.open(Objects.requireNonNull(Patcher.instance.getPatcherSoundConfig().gui()));
+        GuiHandler.INSTANCE.openGui(Objects.requireNonNull(Patcher.instance.getPatcherSoundConfig().gui()));
     }
 
     // PERFORMANCE
