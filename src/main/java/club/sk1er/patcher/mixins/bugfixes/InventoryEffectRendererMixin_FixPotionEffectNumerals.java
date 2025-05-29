@@ -2,7 +2,7 @@ package club.sk1er.patcher.mixins.bugfixes;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.util.RomanNumerals;
-import gg.essential.lib.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

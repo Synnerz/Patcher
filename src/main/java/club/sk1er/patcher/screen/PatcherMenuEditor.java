@@ -5,8 +5,6 @@ import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiMainMenuAccessor;
 import club.sk1er.patcher.screen.disconnect.SmartDisconnectScreen;
 import club.sk1er.patcher.screen.quit.ConfirmQuitScreen;
-import gg.essential.api.EssentialAPI;
-import gg.essential.api.config.EssentialConfig;
 import gg.essential.elementa.ElementaVersion;
 import gg.essential.elementa.components.UIImage;
 import gg.essential.elementa.components.Window;
@@ -167,18 +165,18 @@ public class PatcherMenuEditor {
             }
         }
 
-        if (PatcherConfig.openToLanReplacement == 2 && gui instanceof GuiIngameMenu) {
-            EssentialConfig config = EssentialAPI.getConfig();
-            if (config.getOpenToFriends() && config.getEssentialFull() && EssentialAPI.getOnboardingData().hasAcceptedEssentialTOS()) {
-                for (GuiButton button : mcButtonList) {
-                    if (button != null && button.displayString.equals("Invite Friends")) {
-                        button.width = 200;
-                        button.xPosition = (gui.width / 2) - 100;
-                        break;
-                    }
-                }
-            }
-        }
+//        if (PatcherConfig.openToLanReplacement == 2 && gui instanceof GuiIngameMenu) {
+//            EssentialConfig config = EssentialAPI.getConfig();
+//            if (config.getOpenToFriends() && config.getEssentialFull() && EssentialAPI.getOnboardingData().hasAcceptedEssentialTOS()) {
+//                for (GuiButton button : mcButtonList) {
+//                    if (button != null && button.displayString.equals("Invite Friends")) {
+//                        button.width = 200;
+//                        button.xPosition = (gui.width / 2) - 100;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
     }
 
     @SubscribeEvent

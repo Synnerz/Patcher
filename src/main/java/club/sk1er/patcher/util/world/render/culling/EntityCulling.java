@@ -4,7 +4,7 @@ import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import gg.essential.api.EssentialAPI;
+import club.sk1er.patcher.utils.Notifications;
 import gg.essential.universal.UDesktop;
 import kotlin.Unit;
 import net.minecraft.client.Minecraft;
@@ -149,17 +149,9 @@ public class EntityCulling {
             PatcherConfig.entityCulling = false;
             Patcher.instance.forceSaveConfig();
 
-            EssentialAPI.getNotifications().push("Patcher",
+            Notifications.INSTANCE.push(
                 "Entity Culling has been disabled as your computer is too old and does not support the technology behind it.\n" +
-                    "If you believe this is a mistake, please contact us at https://sk1er.club/support-discord or click this message", () -> {
-                    try {
-                        UDesktop.browse(new URI("https://sk1er.club/support-discord"));
-                    } catch (URISyntaxException e) {
-                        Patcher.instance.getLogger().error("Failed to open support discord.", e);
-                        ChatUtilities.sendMessage("Failed to open https://sk1er.club/support-discord.");
-                    }
-                    return Unit.INSTANCE;
-                });
+                    "If you believe this is a mistake, please contact us at https://sk1er.club/support-discord or click this message");
 
             return 0;
         }
