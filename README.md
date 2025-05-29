@@ -1,3 +1,11 @@
+# Patcher
+
+This project is a fork of [Patcher](https://github.com/Sk1erLLC/Patcher), originally created by [Sk1erLLC](https://github.com/Sk1erLLC).
+
+This fork includes modifications that aim to remove the requirement of [EssentialMod](https://github.com/EssentialGG/Essential-Mod)
+
+The project is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://github.com/Synnerz/Patcher/blob/master/LICENSE.md).
+
 ## Feature List
 
 <details>
