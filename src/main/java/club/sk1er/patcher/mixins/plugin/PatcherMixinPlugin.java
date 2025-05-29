@@ -3,7 +3,6 @@ package club.sk1er.patcher.mixins.plugin;
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import com.google.common.collect.ArrayListMultimap;
 import kotlin.text.StringsKt;
-import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -57,11 +56,9 @@ public class PatcherMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void preApply(String targetClassName, org.spongepowered.asm.lib.tree.ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
     }
 
     @Override
     public void postApply(String targetClassName, org.spongepowered.asm.lib.tree.ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
     }
 }

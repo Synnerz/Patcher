@@ -155,10 +155,8 @@ public class Patcher {
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         List<ModContainer> activeModList = Loader.instance().getActiveModList();
-        // Notifications notifications = EssentialAPI.getNotifications();
         Notifications notifications = Notifications.INSTANCE;
         this.detectIncompatibilities(activeModList, notifications);
-        // this.detectReplacements(activeModList, notifications);
 
         long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime) / 1000L;
         if (PatcherConfig.startupNotification) {
@@ -170,24 +168,7 @@ public class Patcher {
         //noinspection ConstantConditions
         if (!ForgeVersion.mcVersion.equals("1.8.9") || ForgeVersion.getVersion().contains("2318")) return;
         notifications.push("Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
-            "Click to open the Forge website to download the latest version.", 30/*, () -> {
-            String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
-            try {
-                UDesktop.browse(URI.create(updateLink));
-            } catch (Exception openException) {
-                this.logger.error("Failed to open Forge website.", openException);
-                notifications.push("Patcher", "Failed to open Forge website. Link is now copied to your clipboard.");
-                try {
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(updateLink), null);
-                } catch (Exception clipboardException) {
-                    // there is no hope
-                    this.logger.error("Failed to copy Forge website to clipboard.", clipboardException);
-                    notifications.push("Patcher", "Failed to copy Forge website to clipboard.");
-                }
-            }
-
-            return Unit.INSTANCE;
-        }*/);
+            "Click to open the Forge website to download the latest version.", 30);
     }
 
     /**
@@ -258,12 +239,6 @@ public class Patcher {
             MinecraftForge.EVENT_BUS.register(event);
         }
     }
-
-//    private void registerCommands(Command... commands) {
-//        for (Command command : commands) {
-//            EssentialAPI.getCommandRegistry().registerCommand(command);
-//        }
-//    }
 
     private boolean isServerBlacklisted(String ip) {
         if (ip == null) return false;
@@ -371,40 +346,6 @@ public class Patcher {
 
         this.forceSaveConfig();
     }
-
-    private void detectReplacements(List<ModContainer> activeModList, Notifications notifications) {
-//        JsonObject replacedMods;
-//        try {
-//            replacedMods = this.readDuplicateModsJson().get();
-//        } catch (Exception e) {
-//            logger.error("Failed to fetch list of replaced mods.", e);
-//            return;
-//        }
-
-//        if (replacedMods == null) return;
-//        Set<String> replacements = new HashSet<>();
-//        Set<String> modids = replacedMods.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
-//        for (ModContainer modContainer : activeModList) {
-//            if (modids.contains(modContainer.getModId())) {
-//                replacements.add(modContainer.getName());
-//            }
-//        }
-//
-//        if (!replacements.isEmpty()) {
-//            for (String replacement : replacements) {
-//                notifications.push(replacement + " can be removed as it is replaced by Patcher.", 6f);
-//            }
-//        }
-    }
-
-//    private CompletableFuture<JsonObject> readDuplicateModsJson() {
-//        String url = "https://static.sk1er.club/patcher/duplicate_mods.json";
-//        return CompletableFuture.supplyAsync(() -> new JsonParser().parse(Objects.requireNonNull(WebUtil.fetchString(url))).getAsJsonObject(), Multithreading.getPool())
-//            .exceptionally((error) -> {
-//                logger.error("Failed to fetch {}: {}", url, error);
-//                return null;
-//            });
-//    }
 
     public PatcherConfig getPatcherConfig() {
         return patcherConfig;
