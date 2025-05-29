@@ -35,18 +35,20 @@ object Notifications {
             return
         }
 
+        val ( x, y, width, height ) = mutableListOf(5.0, 5.0, Utils.fontRenderer.getStringWidth(child.text) + 2.0, 20.0)
+
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
         GlStateManager.disableCull()
-        GlStateManager.color(50f / 505f, 50f / 505f, 50f / 255f)
-        Utils.drawRect(4.0, 4.0, (Utils.fontRenderer.getStringWidth(child.text) + 2.0) + 2, 22.0, false)
-        GlStateManager.color(15f / 155f, 15f / 155f, 15f / 255f)
-        Utils.drawRect(5.0, 5.0, Utils.fontRenderer.getStringWidth(child.text) + 2.0, 20.0)
+        GlStateManager.color(50f / 255f, 50f / 255f, 50f / 255f)
+        Utils.drawRect(x - 0.5, y - 0.5, width + 1.5, height + 1.5, false)
+        GlStateManager.color(15f / 255f, 15f / 255f, 15f / 255f)
+        Utils.drawRect(x, y, width, height)
         GlStateManager.enableTexture2D()
         GlStateManager.disableBlend()
         GlStateManager.enableCull()
-        Utils.fontRenderer.drawStringWithShadow(child.text, 6f, 20f / 2f, 0xFFFFFFFF.toInt())
+        Utils.fontRenderer.drawStringWithShadow(child.text, x.toFloat() + 1f, (y + height).toFloat() / 2f - 2f, 0xFFFFFFFF.toInt())
 
         currentItem = child
     }
