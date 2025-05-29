@@ -1,6 +1,6 @@
 package club.sk1er.patcher.util.chat;
 
-import gg.essential.api.EssentialAPI;
+import club.sk1er.patcher.utils.Notifications;
 import gg.essential.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -25,11 +25,12 @@ public class ChatUtilities {
     }
 
     public static void sendNotification(String notificationCategory, String chatMessage) {
-        if (!EssentialAPI.getConfig().getDisableAllNotifications()) {
-            EssentialAPI.getNotifications().push(notificationCategory, translate(chatMessage));
-        } else {
-            sendMessage(chatMessage);
-        }
+        Notifications.INSTANCE.push(chatMessage, 5.0);
+//        if (!EssentialAPI.getConfig().getDisableAllNotifications()) {
+//            EssentialAPI.getNotifications().push(notificationCategory, translate(chatMessage));
+//        } else {
+//            sendMessage(chatMessage);
+//        }
     }
 
     public static String translate(String message) {

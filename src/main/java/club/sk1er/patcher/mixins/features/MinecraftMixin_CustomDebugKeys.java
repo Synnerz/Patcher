@@ -12,9 +12,13 @@ public class MinecraftMixin_CustomDebugKeys {
     //#if MC==10809
     @ModifyConstant(method = "runTick", constant = @Constant(intValue = Keyboard.KEY_F3))
     private int patcher$replaceF3KeyChecks(int original) {
-        int customDebugKeycode = Patcher.instance.getCustomDebug().getKeyCode();
-        if (customDebugKeycode != Keyboard.KEY_NONE) {
-            return customDebugKeycode;
+        try {
+            int customDebugKeycode = Patcher.instance.getCustomDebug().getKeyCode();
+            if (customDebugKeycode != Keyboard.KEY_NONE) {
+                return customDebugKeycode;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return original;
@@ -22,9 +26,13 @@ public class MinecraftMixin_CustomDebugKeys {
 
     @ModifyConstant(method = "runTick", constant = @Constant(intValue = Keyboard.KEY_F1))
     private int patcher$replaceF1KeyCheck(int original) {
-        int hideScreenKeycode = Patcher.instance.getHideScreen().getKeyCode();
-        if (hideScreenKeycode != Keyboard.KEY_NONE) {
-            return hideScreenKeycode;
+        try {
+            int hideScreenKeycode = Patcher.instance.getHideScreen().getKeyCode();
+            if (hideScreenKeycode != Keyboard.KEY_NONE) {
+                return hideScreenKeycode;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return original;
@@ -32,9 +40,13 @@ public class MinecraftMixin_CustomDebugKeys {
 
     @ModifyConstant(method = "runTick", constant = @Constant(intValue = Keyboard.KEY_F4))
     private int patcher$replaceF4KeyCheck(int original) {
-        int clearShadersKeycode = Patcher.instance.getClearShaders().getKeyCode();
-        if (clearShadersKeycode != Keyboard.KEY_NONE) {
-            return clearShadersKeycode;
+        try {
+            int clearShadersKeycode = Patcher.instance.getClearShaders().getKeyCode();
+            if (clearShadersKeycode != Keyboard.KEY_NONE) {
+                return clearShadersKeycode;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return original;

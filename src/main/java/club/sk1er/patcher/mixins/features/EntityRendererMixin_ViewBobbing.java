@@ -2,7 +2,7 @@ package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.EntityRendererHook;
-import gg.essential.lib.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import org.spongepowered.asm.mixin.Dynamic;

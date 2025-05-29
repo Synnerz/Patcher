@@ -1,16 +1,19 @@
 package club.sk1er.patcher.util.screenshot;
 
 import club.sk1er.patcher.Patcher;
+import club.sk1er.patcher.commands.BaseCommand;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.render.ScreenshotPreview;
 import club.sk1er.patcher.tasks.UploadScreenshotTask;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import gg.essential.api.commands.Command;
-import gg.essential.api.commands.DefaultHandler;
-import gg.essential.api.utils.Multithreading;
+//import gg.essential.api.commands.Command;
+//import gg.essential.api.commands.DefaultHandler;
+//import gg.essential.api.utils.Multithreading;
+import club.sk1er.patcher.utils.Utils;
 import gg.essential.universal.ChatColor;
 import gg.essential.universal.UDesktop;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -176,14 +179,24 @@ public class AsyncScreenshots implements Runnable {
         }
     }
 
-    public static class ScreenshotsFolder extends Command {
+    public static class ScreenshotsFolder extends BaseCommand {
 
         public ScreenshotsFolder() {
-            super("$openfolder", true, true);
+            super("$openfolder"/*, true, true*/);
         }
 
-        @DefaultHandler
-        public void handle() {
+//        @DefaultHandler
+//        public void handle() {
+//            try {
+//                UDesktop.open(new File("./screenshots"));
+//            } catch (Exception e) {
+//                ChatUtilities.sendMessage("Unfortunately, we were unable to open the screenshots folder. " +
+//                    "Contact the support Discord at https://sk1er.club/support if this issue persists.");
+//            }
+//        }
+
+        @Override
+        public void processCommand(@NotNull EntityPlayerSP player, @NotNull String[] args) {
             try {
                 UDesktop.open(new File("./screenshots"));
             } catch (Exception e) {
@@ -193,15 +206,32 @@ public class AsyncScreenshots implements Runnable {
         }
     }
 
-    public static class FavoriteScreenshot extends Command {
+    public static class FavoriteScreenshot extends BaseCommand {
 
         public FavoriteScreenshot() {
-            super("$favorite", true, true);
+            super("$favorite"/*, true, true*/);
         }
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
-        @DefaultHandler
-        public void handle() {
+//        @DefaultHandler
+//        public void handle() {
+//            try {
+//                final File favoritedScreenshots = getTimestampedPNGFileForDirectory(new File("./favorite_screenshots"));
+//                screenshot.delete();
+//
+//                if (!favoritedScreenshots.exists()) {
+//                    favoritedScreenshots.mkdirs();
+//                }
+//
+//                ImageIO.write(image, "png", favoritedScreenshots);
+//                ChatUtilities.sendNotification("Screenshot Manager", "&e" + screenshot.getName() + " has been favorited.");
+//            } catch (Throwable e) {
+//                ChatUtilities.sendNotification("Screenshot Manager", "&cFailed to favorite screenshot, maybe the file was moved/deleted?");
+//            }
+//        }
+
+        @Override
+        public void processCommand(@NotNull EntityPlayerSP player, @NotNull String[] args) {
             try {
                 final File favoritedScreenshots = getTimestampedPNGFileForDirectory(new File("./favorite_screenshots"));
                 screenshot.delete();
@@ -218,13 +248,27 @@ public class AsyncScreenshots implements Runnable {
         }
     }
 
-    public static class DeleteScreenshot extends Command {
+    public static class DeleteScreenshot extends BaseCommand {
         public DeleteScreenshot() {
-            super("$delete", true, true);
+            super("$delete"/*, true, true*/);
         }
 
-        @DefaultHandler
-        public void handle() {
+//        @DefaultHandler
+//        public void handle() {
+//            try {
+//                if (screenshot.exists() && screenshot.delete()) {
+//                    ChatUtilities.sendNotification("Screenshot Manager", "&c" + screenshot.getName() + " has been deleted.");
+//                    screenshot = null;
+//                } else {
+//                    ChatUtilities.sendNotification("Screenshot Manager", "&cCouldn't find " + screenshot.getName());
+//                }
+//            } catch (NullPointerException e) {
+//                ChatUtilities.sendNotification("Screenshot Manager", "&cFailed to delete screenshot, maybe the file was moved/deleted?");
+//            }
+//        }
+
+        @Override
+        public void processCommand(@NotNull EntityPlayerSP player, @NotNull String[] args) {
             try {
                 if (screenshot.exists() && screenshot.delete()) {
                     ChatUtilities.sendNotification("Screenshot Manager", "&c" + screenshot.getName() + " has been deleted.");
@@ -238,40 +282,55 @@ public class AsyncScreenshots implements Runnable {
         }
     }
 
-    public static class UploadScreenshot extends Command {
+    public static class UploadScreenshot extends BaseCommand {
 
         public UploadScreenshot() {
-            super("$upload", true, true);
+            super("$upload"/*, true, true*/);
         }
 
-        @DefaultHandler
-        public void handle() {
+//        @DefaultHandler
+//        public void handle() {
+//            UploadScreenshotTask.INSTANCE.execute(screenshot);
+//        }
+
+        @Override
+        public void processCommand(@NotNull EntityPlayerSP player, @NotNull String[] args) {
             UploadScreenshotTask.INSTANCE.execute(screenshot);
         }
     }
 
-    public static class CopyScreenshot extends Command {
+    public static class CopyScreenshot extends BaseCommand {
 
         public CopyScreenshot() {
-            super("$copyss", true, true);
+            super("$copyss"/*, true, true*/);
         }
 
-        @DefaultHandler
-        public void handle() {
+//        @DefaultHandler
+//        public void handle() {
+//            try {
+//                copyScreenshot(true);
+//            } catch (HeadlessException e) {
+//                ChatUtilities.sendNotification("Screenshot Manager", "&cFailed to copy screenshot to clipboard.");
+//                Patcher.instance.getLogger().error("Failed to copy screenshot to clipboard.", e);
+//            }
+//        }
+
+        public static void copyScreenshot(boolean message) throws HeadlessException {
+            final ImageSelection sel = new ImageSelection(image);
+            Utils.INSTANCE.runAsync(() -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null));
+
+            if (message) {
+                ChatUtilities.sendMessage("&aScreenshot has been copied to your clipboard.");
+            }
+        }
+
+        @Override
+        public void processCommand(@NotNull EntityPlayerSP player, @NotNull String[] args) {
             try {
                 copyScreenshot(true);
             } catch (HeadlessException e) {
                 ChatUtilities.sendNotification("Screenshot Manager", "&cFailed to copy screenshot to clipboard.");
                 Patcher.instance.getLogger().error("Failed to copy screenshot to clipboard.", e);
-            }
-        }
-
-        public static void copyScreenshot(boolean message) throws HeadlessException {
-            final ImageSelection sel = new ImageSelection(image);
-            Multithreading.runAsync(() -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null));
-
-            if (message) {
-                ChatUtilities.sendMessage("&aScreenshot has been copied to your clipboard.");
             }
         }
     }
