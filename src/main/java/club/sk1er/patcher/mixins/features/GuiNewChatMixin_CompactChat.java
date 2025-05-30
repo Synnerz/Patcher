@@ -8,7 +8,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import java.util.List;
 
 @Mixin(GuiNewChat.class)
 public class GuiNewChatMixin_CompactChat {
@@ -28,5 +30,11 @@ public class GuiNewChatMixin_CompactChat {
             ChatHandler.setChatLine_addToList((ChatLine) chatLine);
         }
         return chatLine;
+    }
+
+    // Don't tell anyone that i hijacked this class
+    @Redirect(method = "setChatLine", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
+    private int patcher$avoidMsgDeletion(List instance) {
+        return 100;
     }
 }
