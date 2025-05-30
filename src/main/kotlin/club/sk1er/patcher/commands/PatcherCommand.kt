@@ -24,19 +24,27 @@ class PatcherCommand : BaseCommand("patcher") {
 
         // TODO: find out if these are the correct implementation for the commands
         //  too lazy to look at essential's implementation
-        when (val arg = args[0].lowercase()) {
-            "blacklist" -> blacklist(arg)
-            "fov" -> fov(arg.toFloat())
-            "scale" -> scale(arg)
-            "sendcoords" -> sendCoords(args)
-            "sound" -> sounds()
-            "fps" -> fps(arg.toInt())
-            // TODO: finish help command
+        val par = args.getOrNull(1)
+
+        when (args[0].lowercase()) {
+            "blacklist" -> par?.let { blacklist(it) }
+            "fov" -> par?.let { fov(it.toFloat()) }
+            "scale" -> par?.let { scale(it) }
+            "sendcoords" -> sendCoords(par)
+            "sounds" -> sounds()
+            "fps" -> par?.let { fps(it.toInt()) }
             "help" -> help()
         }
     }
 
-    fun help() {}
+    fun help() {
+        ChatUtilities.sendMessage("&c/patcher blacklist <ip> &7Tell the client that you don't want to use the 1.11+ chat length on the specified server IP.", false)
+        ChatUtilities.sendMessage("&c/patcher fov <amount> &7Change your FOV to a custom value.", false)
+        ChatUtilities.sendMessage("&c/patcher scale <type> &7Change the scale of your inventory independent of your GUI scale. &8types: help, off, none, small, normal, large, auto", false)
+        ChatUtilities.sendMessage("&c/patcher sendcoords <additional information> &7Send your current coordinates in chat. Anything after 'sendcoords' will be put at the end of the message.", false)
+        ChatUtilities.sendMessage("&c/patcher sounds &7Open the Sound Configuration GUI.", false)
+        ChatUtilities.sendMessage("&c/patcher fps <amount> &7Choose what to limit the game's framerate to outside of Minecraft's options. 0 will use your normal framerate.", false)
+    }
 
     fun blacklist(ip: String) {
         val status = if (Patcher.instance.addOrRemoveBlacklist(ip)) "&cnow" else "&ano longer"
@@ -85,10 +93,9 @@ class PatcherCommand : BaseCommand("patcher") {
         Patcher.instance.forceSaveConfig()
     }
 
-    fun sendCoords(vararg args: Array<String>?) {
+    fun sendCoords(str: String?) {
         val playerSP = Minecraft.getMinecraft().thePlayer
-        val toAdd = if (args.isNotEmpty()) " ${args.joinToString(" ")}" else ""
-        playerSP.sendChatMessage("x: ${playerSP.posX.toInt()}, y: ${playerSP.posY.toInt()}, z: ${playerSP.posZ.toInt()}${toAdd}")
+        playerSP.sendChatMessage("x: ${playerSP.posX.toInt()}, y: ${playerSP.posY.toInt()}, z: ${playerSP.posZ.toInt()} ${str ?: ""}")
     }
 
     fun sounds() {
